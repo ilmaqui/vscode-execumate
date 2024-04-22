@@ -14,10 +14,118 @@
   "contributes": {
     "commands": [
       {
-        "command": "execumate.helloWorld",
-        "title": "Hello World"
+        "command": "execumate.addGlobalEntry",
+        "title": "Add Global Entry",
+        "icon": "$(add)"
+      },
+      {
+        "command": "execumate.addWorkspaceEntry",
+        "title": "Add Workspace Entry",
+        "icon": "$(add)"
+      },
+      {
+        "command": "execumate.addTemporaryEntry",
+        "title": "Add Temporary Entry",
+        "icon": "$(add)"
+      },
+      {
+        "command": "execumate.editEntry",
+        "title": "Edit Entry",
+        "icon": "$(edit)"
+      },
+      {
+        "command": "execumate.deleteEntry",
+        "title": "Delete Entry",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "execumate.rerunEntry",
+        "title": "Rerun Entry",
+        "icon": "$(sync)"
+      },
+      {
+        "command": "execumate.runEntry",
+        "title": "Run Entry",
+        "icon": "$(play)"
+      },
+      {
+        "command": "execumate.stopEntry",
+        "title": "Stop Entry",
+        "icon": "$(debug-stop)"
       }
-    ]
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "execumate.addGlobalEntry",
+          "when": "view == execumate.global",
+          "group": "navigation"
+        },
+        {
+          "command": "execumate.addWorkspaceEntry",
+          "when": "view == execumate.workspace",
+          "group": "navigation"
+        },
+        {
+          "command": "execumate.addTemporaryEntry",
+          "when": "view == execumate.temporary",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+            "command": "execumate.editEntry",
+            "when": "viewItem == terminalNode-STOPPED || viewItem == terminalNode-ERROR",
+            "group": "inline@1"
+        },
+        {
+            "command": "execumate.runEntry",
+            "when": "viewItem == terminalNode-STOPPED || viewItem == terminalNode-ERROR",
+            "group": "inline@2"
+        },
+        {
+            "command": "execumate.stopEntry",
+            "when": "viewItem == terminalNode-RUNNING",
+            "group": "inline@2"
+        },
+        {
+            "command": "execumate.rerunEntry",
+            "when": "viewItem == terminalNode-ERROR || viewItem == terminalNode-RUNNING",
+            "group": "inline@3"
+        },
+        {
+            "command": "execumate.deleteEntry",
+            "when": "viewItem == terminalNode-STOPPED || viewItem == terminalNode-RUNNING || viewItem == terminalNode-ERROR",
+            "group": "inline@4"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "execumate",
+          "title": "ExecuMate",
+          "icon": "$(terminal-bash)",
+          "order": 1
+        }
+      ]
+    },
+    "views": {
+      "execumate": [
+        {
+          "id": "execumate.global",
+          "name": "Global"
+        },
+        {
+          "id": "execumate.workspace",
+          "name": "Workspace"
+        },
+        {
+          "id": "execumate.temporary",
+          "name": "Temporary"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
