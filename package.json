@@ -16,45 +16,75 @@
       {
         "command": "execumate.addGlobalEntry",
         "title": "Add Global Entry",
-        "icon": "$(add)"
+        "icon": "$(add)",
+        "category": "ExecuMate"
       },
       {
         "command": "execumate.addWorkspaceEntry",
         "title": "Add Workspace Entry",
-        "icon": "$(add)"
+        "icon": "$(add)",
+        "category": "ExecuMate"
       },
       {
         "command": "execumate.addTemporaryEntry",
         "title": "Add Temporary Entry",
-        "icon": "$(add)"
+        "icon": "$(add)",
+        "category": "ExecuMate"
       },
       {
         "command": "execumate.editEntry",
         "title": "Edit Entry",
-        "icon": "$(edit)"
+        "icon": "$(edit)",
+        "category": "ExecuMate"
       },
       {
         "command": "execumate.deleteEntry",
         "title": "Delete Entry",
-        "icon": "$(trash)"
+        "icon": "$(trash)",
+        "category": "ExecuMate"
       },
       {
         "command": "execumate.rerunEntry",
         "title": "Rerun Entry",
-        "icon": "$(sync)"
+        "icon": "$(sync)",
+        "category": "ExecuMate"
       },
       {
         "command": "execumate.runEntry",
         "title": "Run Entry",
-        "icon": "$(play)"
+        "icon": "$(play)",
+        "category": "ExecuMate"
       },
       {
         "command": "execumate.stopEntry",
         "title": "Stop Entry",
-        "icon": "$(debug-stop)"
+        "icon": "$(debug-stop)",
+        "category": "ExecuMate"
       }
     ],
     "menus": {
+      "commandPalette": [
+        {
+          "command": "execumate.editEntry",
+          "when": "false"
+        },
+        {
+          "command": "execumate.deleteEntry",
+          "when": "false"
+        },
+        {
+          "command": "execumate.rerunEntry",
+          "when": "false"
+        },
+        {
+          "command": "execumate.runEntry",
+          "when": "false"
+        },
+        {
+          "command": "execumate.stopEntry",
+          "when": "false"
+        }
+      ],
       "view/title": [
         {
           "command": "execumate.addGlobalEntry",
@@ -75,12 +105,12 @@
       "view/item/context": [
         {
             "command": "execumate.editEntry",
-            "when": "viewItem == terminalNode-STOPPED || viewItem == terminalNode-ERROR",
+            "when": "viewItem == terminalNode-STOPPED",
             "group": "inline@1"
         },
         {
             "command": "execumate.runEntry",
-            "when": "viewItem == terminalNode-STOPPED || viewItem == terminalNode-ERROR",
+            "when": "viewItem == terminalNode-STOPPED",
             "group": "inline@2"
         },
         {
@@ -90,12 +120,12 @@
         },
         {
             "command": "execumate.rerunEntry",
-            "when": "viewItem == terminalNode-ERROR || viewItem == terminalNode-RUNNING",
+            "when": "viewItem == terminalNode-RUNNING",
             "group": "inline@3"
         },
         {
             "command": "execumate.deleteEntry",
-            "when": "viewItem == terminalNode-STOPPED || viewItem == terminalNode-RUNNING || viewItem == terminalNode-ERROR",
+            "when": "viewItem == terminalNode-STOPPED || viewItem == terminalNode-RUNNING",
             "group": "inline@4"
         }
       ]
