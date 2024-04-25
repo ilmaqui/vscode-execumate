@@ -4,11 +4,43 @@
   "description": "This extension allows you to run terminal commands directly from the UI",
   "publisher": "ilmaqui",
   "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ilmaqui/vscode-execumate.git"
+  },
+  "icon": "media/icon.png",
+  "license": "MIT",
   "engines": {
     "vscode": "^1.88.0"
   },
+  "homepage": "https://github.com/ilmaqui/vscode-execumate",
+  "bugs": {
+    "url": "https://github.com/ilmaqui/vscode-execumate/issues"
+  },
   "categories": [
     "Other"
+  ],
+  "extensionKind": [
+    "ui"
+  ],
+  "keywords": [
+    "ilmaqui",
+    "terminal",
+    "command",
+    "run",
+    "execute",
+    "exec",
+    "shell",
+    "bash",
+    "zsh",
+    "fish",
+    "cmd",
+    "powershell",
+    "cmd.exe",
+    "powershell.exe",
+    "bash.exe",
+    "zsh.exe",
+    "fish.exe"
   ],
   "activationEvents": [],
   "main": "./out/extension.js",
