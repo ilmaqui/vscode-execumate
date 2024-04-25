@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://raw.githubusercontent.com/ilmaqui/vscode-execumate/master/media/icon.png" width="100px" height="100px" />
+  <img src="https://raw.githubusercontent.com/ilmaqui/vscode-execumate/master/media/execumate.png" width="100px" height="100px" />
   <h1>ExecuMate</h1>
   <p>
     <b>ExecuMate</b> is a Visual Studio Code extension that allows you to create and manage terminals with specific commands.
