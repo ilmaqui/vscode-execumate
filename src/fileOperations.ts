@@ -19,26 +19,28 @@ export async function loadCommandsFromFile(
   provider: TerminalDataProvider,
   cType: CommandType
 ) {
-  const fileName =
-    cType === CommandType.GLOBAL
-      ? "global-execumate.json"
-      : "workspace-execumate.json";
-  const folderPath =
-    cType === CommandType.GLOBAL
-      ? vscode.extensions.all[0].extensionPath
-      : vscode.workspace.workspaceFolders?.[0].uri.fsPath;
+  if (cType !== CommandType.TEMPORARY) {
+    const fileName =
+      cType === CommandType.GLOBAL
+        ? "global-execumate.json"
+        : "workspace-execumate.json";
+    const folderPath =
+      cType === CommandType.GLOBAL
+        ? vscode.extensions.all[0].extensionPath
+        : vscode.workspace.workspaceFolders?.[0].uri.fsPath;
 
-  if (folderPath) {
-    const filePath = path.join(folderPath, fileName);
-    const commands = await readCommandsFromFile(filePath);
-    commands.forEach((item) =>
-      provider.addTerminalNode(
-        item.command,
-        State.STOPPED,
-        item.label,
-        cType,
-        provider
-      )
-    );
+    if (folderPath) {
+      const filePath = path.join(folderPath, fileName);
+      const commands = await readCommandsFromFile(filePath);
+      commands.forEach((item) =>
+        provider.addTerminalNode(
+          item.command,
+          State.STOPPED,
+          item.label,
+          cType,
+          provider
+        )
+      );
+    }
   }
 }

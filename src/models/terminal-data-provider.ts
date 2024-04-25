@@ -176,6 +176,7 @@ export class TerminalDataProvider implements TreeDataProvider<TerminalNode> {
   rerunTerminal(node: TerminalNode) {
     node.terminal?.dispose();
     node.terminal = window.createTerminal(node.label);
+    node.terminal.show(true);
     node.terminal?.sendText(node.command);
     node.state = State.RUNNING;
     this._onDidChangeTreeData.fire(undefined);
@@ -186,6 +187,7 @@ export class TerminalDataProvider implements TreeDataProvider<TerminalNode> {
     inputBox.title = "Create Execumate Terminal";
     inputBox.placeholder = "npm run start";
     inputBox.step = 1;
+    inputBox.value = node.command ?? "";
     inputBox.totalSteps = 2;
     inputBox.show();
 
@@ -196,7 +198,7 @@ export class TerminalDataProvider implements TreeDataProvider<TerminalNode> {
       if (inputBox.step === 1) {
         command = inputBox.value;
         if (command) {
-          inputBox.value = "";
+          inputBox.value = node.label ?? "";
           inputBox.step = 2;
           inputBox.prompt =
             "Enter a label associated with the command: (optional)";
@@ -209,6 +211,7 @@ export class TerminalDataProvider implements TreeDataProvider<TerminalNode> {
         node.label = label ?? command;
         node.command = command;
         this._onDidChangeTreeData.fire(undefined);
+        this.saveCommandsToFile(this.terminals, node.cType);
       }
     });
   }
