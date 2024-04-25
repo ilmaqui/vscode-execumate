@@ -6,8 +6,14 @@
   </p>
 </div>
 
-![Version 1.0.0](https://img.shields.io/badge/version-1.0.0-blue
+![Version 0.1.0](https://img.shields.io/badge/version-0.1.0-blue
 )
+
+## Instalation
+
+1. Open the Extensions view by clicking on the square icon in the Sidebar on the right side of the window.
+2. Search for `ExecuMate` in the Extensions view search box.
+3. Click on the Install button.
 
 ## Features
 
@@ -22,7 +28,7 @@ Global commands are maintained between projects, while workspace commands are sh
 
 ## Release Notes
 
-### 1.0.0
+### 0.1.0
 
 - Initial release of ExecuMate!
 
