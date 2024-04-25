@@ -3,7 +3,7 @@
   "displayName": "ExecuMate",
   "description": "This extension allows you to run terminal commands directly from the UI",
   "publisher": "ilmaqui",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "repository": {
     "type": "git",
     "url": "https://github.com/ilmaqui/vscode-execumate.git"
@@ -137,29 +137,29 @@
       ],
       "view/item/context": [
         {
-            "command": "execumate.editEntry",
-            "when": "viewItem == terminalNode-STOPPED",
-            "group": "inline@1"
+          "command": "execumate.editEntry",
+          "when": "viewItem == terminalNode-STOPPED",
+          "group": "inline@1"
         },
         {
-            "command": "execumate.runEntry",
-            "when": "viewItem == terminalNode-STOPPED",
-            "group": "inline@2"
+          "command": "execumate.runEntry",
+          "when": "viewItem == terminalNode-STOPPED",
+          "group": "inline@2"
         },
         {
-            "command": "execumate.stopEntry",
-            "when": "viewItem == terminalNode-RUNNING",
-            "group": "inline@2"
+          "command": "execumate.stopEntry",
+          "when": "viewItem == terminalNode-RUNNING",
+          "group": "inline@2"
         },
         {
-            "command": "execumate.rerunEntry",
-            "when": "viewItem == terminalNode-RUNNING",
-            "group": "inline@3"
+          "command": "execumate.rerunEntry",
+          "when": "viewItem == terminalNode-RUNNING",
+          "group": "inline@3"
         },
         {
-            "command": "execumate.deleteEntry",
-            "when": "viewItem == terminalNode-STOPPED || viewItem == terminalNode-RUNNING",
-            "group": "inline@4"
+          "command": "execumate.deleteEntry",
+          "when": "viewItem == terminalNode-STOPPED || viewItem == terminalNode-RUNNING",
+          "group": "inline@4"
         }
       ]
     },
