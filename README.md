@@ -1,71 +1,58 @@
-# execumate README
+<div align="center">
+  <img src="media/icon.svg" width="100px" height="100px" />
+  <h1>ExecuMate</h1>
+  <p>
+    <b>ExecuMate</b> is a Visual Studio Code extension that allows you to create and manage terminals with specific commands.
+  </p>
+</div>
 
-This is the README for your extension "execumate". After writing up a brief description, we recommend including the following sections.
+![Version 1.0.0](https://img.shields.io/badge/version-1.0.0-blue
+)
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+---
 
-For example if there is an image subfolder under your extension project workspace:
+With this extension you will forget about working with VS Code Tasks. This easily allows you to create new terminals and execumate specific commands with just one click. You can delete the terminals you don't use anymore or you can edit them to better suit your necessities.
 
-\!\[feature X\]\(images/feature-x.png\)
+Global commands are maintained between projects, while workspace commands are shared amongst each individual working on the project (and each one can create new ones). Temporary commands are short-lived terminals for sending commands and are automatically deleted upon exit.
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+> [!IMPORTANT]  
+> Activating this extension will dispose any terminal running, stopped or idling. So keep that in mind!
 
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
+![Execumate demonstration gif](media/execumate.gif)
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
+---
 
 ### 1.0.0
 
-Initial release of ...
+- Initial release of ExecuMate!
 
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+## Known Issues
 
 ---
 
-## Following extension guidelines
+- None so far
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
+## What's coming next?
 
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
+---
 
-## Working with Markdown
+- [ ] Add a feature to show/hide commands.
+- [ ] Add a feature to show/hide a list of commands under a section (hide all global commands, etc).
+- [ ] Add a feature for you to be able to select the icon which shows up in the contributed view.
+- [ ] Add a feature to create commands with different shells (cmd, bash, powershell, etc).
 
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
+## Contributing
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
+---
 
-## For more information
+If you want to contribute to this project, please feel free to submit a pull request or create an issue. I am always looking to improve the user experience and add new features.
 
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+## License
 
-**Enjoy!**
+---
+
+![License mit](https://img.shields.io/badge/License-MIT-blue.svg)

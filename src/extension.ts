@@ -1,9 +1,6 @@
 import vscode from "vscode";
-import fs from "fs";
-import path from "path";
 import { TerminalDataProvider } from "./models/terminal-data-provider";
 import { CommandType } from "./models/command-type";
-import { State } from "./models/state";
 import { TerminalNode } from "./models/terminal-node";
 import { loadCommandsFromFile } from "./fileOperations";
 
