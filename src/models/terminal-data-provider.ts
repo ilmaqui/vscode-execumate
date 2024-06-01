@@ -8,14 +8,14 @@ import {
   ProviderResult,
   window,
   Terminal,
-  extensions,
-  workspace,
+  ExtensionContext,
+  QuickPickItemKind,
 } from "vscode";
 import { TerminalNode } from "./terminal-node";
 import { State } from "./state";
 import { CommandType } from "./command-type";
-import fs from "fs";
-import path from "path";
+import { saveCommandToJson, saveCommandsToFile } from "../fileOperations";
+import { QuickPickVariables } from "./quickpick-variables";
 
 export class TerminalDataProvider implements TreeDataProvider<TerminalNode> {
   private _onDidChangeTreeData: EventEmitter<TerminalNode | undefined> =
@@ -24,6 +24,11 @@ export class TerminalDataProvider implements TreeDataProvider<TerminalNode> {
     this._onDidChangeTreeData.event;
 
   public terminals: TerminalNode[] = [];
+  private _context: ExtensionContext;
+
+  constructor(context: ExtensionContext) {
+    this._context = context;
+  }
 
   getTreeItem(element: TerminalNode): TreeItem {
     const treeItem = new TreeItem(element.label, TreeItemCollapsibleState.None);
@@ -57,11 +62,12 @@ export class TerminalDataProvider implements TreeDataProvider<TerminalNode> {
     inputBox.title = "Create Execumate Terminal";
     inputBox.placeholder = "npm run start";
     inputBox.step = 1;
-    inputBox.totalSteps = 2;
+    inputBox.totalSteps = 3;
     inputBox.show();
 
     let command = "";
     let label = "";
+    let variables = [];
 
     inputBox.onDidAccept(() => {
       if (inputBox.step === 1) {
@@ -76,12 +82,28 @@ export class TerminalDataProvider implements TreeDataProvider<TerminalNode> {
       } else if (inputBox.step === 2) {
         label = inputBox.value;
         inputBox.value = "";
+        inputBox.step = 3;
+        inputBox.prompt =
+          "Enter any optional variables this command can have separated by commas: (optional) ";
+        inputBox.placeholder = "--port 3000,--port 3001,--open";
+      } else if (inputBox.step === 3) {
+        variables = inputBox.value.split(",");
+        inputBox.value = "";
         inputBox.hide();
+
+        this.addTerminalNode(
+          command,
+          State.STOPPED,
+          label,
+          cType,
+          this,
+          variables
+        );
+
         const isGlobal = cType === CommandType.GLOBAL;
         if (cType && cType !== CommandType.TEMPORARY) {
-          this.saveCommandToJson(command, label, isGlobal);
+          saveCommandToJson(command, label, isGlobal, this._context, variables);
         }
-        this.addTerminalNode(command, State.STOPPED, label, cType, this);
       }
     });
   }
@@ -102,59 +124,23 @@ export class TerminalDataProvider implements TreeDataProvider<TerminalNode> {
   addTerminalNode(
     command: string,
     state: State,
-    label: string | undefined,
+    label: string,
     cType: CommandType,
-    provider: TerminalDataProvider
+    provider: TerminalDataProvider,
+    variables: string[]
   ) {
     const terminalNode = new TerminalNode(
       label ?? command,
       command,
       state,
       cType,
-      provider
+      provider,
+      variables
     );
     this.terminals.push(terminalNode);
     this._onDidChangeTreeData.fire(undefined);
-  }
 
-  saveCommandsToFile(terminals: TerminalNode[], cType: CommandType) {
-    if (cType !== CommandType.TEMPORARY) {
-      const isGlobal = cType === CommandType.GLOBAL;
-      const filteredTerminals = terminals.filter((c) => c.cType === cType);
-      const fileName = isGlobal
-        ? "global-execumate.json"
-        : "workspace-execumate.json";
-      const folderPath = isGlobal
-        ? extensions.all[0].extensionPath
-        : workspace.workspaceFolders?.[0].uri.fsPath;
-      if (folderPath) {
-        const filePath = path.join(folderPath, fileName);
-        const mappedCommands = filteredTerminals.map((t) => ({
-          command: t.command,
-          label: t.label,
-        }));
-        fs.writeFileSync(filePath, JSON.stringify(mappedCommands));
-      }
-    }
-  }
-
-  saveCommandToJson(command: string, label: string, isGlobal: boolean) {
-    const fileName = isGlobal
-      ? "global-execumate.json"
-      : "workspace-execumate.json";
-    const folderPath = isGlobal
-      ? extensions.all[0].extensionPath
-      : workspace.workspaceFolders && workspace.workspaceFolders[0].uri.fsPath;
-    if (folderPath) {
-      const filePath = path.join(folderPath, fileName);
-
-      let commands = [];
-      if (fs.existsSync(filePath)) {
-        commands = JSON.parse(fs.readFileSync(filePath, "utf8"));
-      }
-      commands.push({ label, command });
-      fs.writeFileSync(filePath, JSON.stringify(commands));
-    }
+    return terminalNode;
   }
 
   deleteTerminal(node: TerminalNode) {
@@ -162,14 +148,89 @@ export class TerminalDataProvider implements TreeDataProvider<TerminalNode> {
     this.terminals = this.terminals.filter((t) => t !== node);
     this._onDidChangeTreeData.fire(undefined);
 
-    this.saveCommandsToFile(this.terminals, node.cType);
+    saveCommandsToFile(this.terminals, node.cType, this._context);
   }
 
   runTerminal(node: TerminalNode) {
+    let command = node.command;
+    if (node.variables.length > 0) {
+      this.handleVariableSelection(node, command);
+    } else {
+      this.runCommandInTerminal(node, command);
+    }
+  }
+
+  handleVariableSelection(node: TerminalNode, command: string) {
+    const items: QuickPickVariables[] = this.getQuickPickItems(node);
+
+    window
+      .showQuickPick(items, {
+        canPickMany: true,
+        placeHolder: "Select variables",
+        title: "Select variables",
+      })
+      .then((selectedItems) => {
+        if (!selectedItems) {
+          return;
+        }
+
+        const saveItem = selectedItems.find((item) => item.code === "save");
+        const variables = this.getSelectedVariables(selectedItems);
+
+        if (variables !== "") {
+          command = `${command} ${variables}`;
+        }
+
+        if (saveItem) {
+          this.handleSaveCommand(node, command);
+        } else {
+          this.runCommandInTerminal(node, command);
+        }
+      });
+  }
+
+  getQuickPickItems(node: TerminalNode): QuickPickVariables[] {
+    return [
+      ...node.variables.map((v) => ({ label: v })),
+      { label: "Actions", kind: QuickPickItemKind.Separator },
+      { label: "Save as a separate command and run it.", code: "save" },
+    ];
+  }
+
+  getSelectedVariables(selectedItems: QuickPickVariables[]): string {
+    return selectedItems
+      .filter((item) => item.code !== "save")
+      .map((item) => item.label)
+      .join(" ");
+  }
+
+  handleSaveCommand(node: TerminalNode, command: string) {
+    const terminalNode = this.addTerminalNode(
+      command,
+      State.STOPPED,
+      "",
+      node.cType,
+      node.provider,
+      []
+    );
+
+    const isGlobal = node.cType === CommandType.GLOBAL;
+    if (node.cType && node.cType !== CommandType.TEMPORARY) {
+      saveCommandToJson(command, "", isGlobal, this._context, []);
+    }
+
+    this.runCommandInTerminal(terminalNode, command);
+  }
+
+  runCommandInTerminal(node: TerminalNode, command: string) {
     node.terminal = window.createTerminal(node.label);
     node.terminal.show(true);
-    node.terminal.sendText(node.command);
-    node.state = State.RUNNING;
+    node.terminal.sendText(command);
+    this.updateNodeState(node, State.RUNNING);
+  }
+
+  updateNodeState(node: TerminalNode, state: State) {
+    node.state = state;
     this._onDidChangeTreeData.fire(undefined);
   }
 
@@ -178,8 +239,8 @@ export class TerminalDataProvider implements TreeDataProvider<TerminalNode> {
     node.terminal = window.createTerminal(node.label);
     node.terminal.show(true);
     node.terminal?.sendText(node.command);
-    node.state = State.RUNNING;
-    this._onDidChangeTreeData.fire(undefined);
+
+    this.updateNodeState(node, State.RUNNING);
   }
 
   editTerminal(node: TerminalNode) {
@@ -211,14 +272,14 @@ export class TerminalDataProvider implements TreeDataProvider<TerminalNode> {
         node.label = label ?? command;
         node.command = command;
         this._onDidChangeTreeData.fire(undefined);
-        this.saveCommandsToFile(this.terminals, node.cType);
+        saveCommandsToFile(this.terminals, node.cType, this._context);
       }
     });
   }
 
   stopTerminal(node: TerminalNode) {
     node.terminal?.dispose();
-    node.state = State.STOPPED;
-    this._onDidChangeTreeData.fire(undefined);
+
+    this.updateNodeState(node, State.STOPPED);
   }
 }

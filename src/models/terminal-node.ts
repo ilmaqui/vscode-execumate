@@ -18,6 +18,7 @@ export class TerminalNode implements ITerminalNode {
     public state: State,
     public cType: CommandType,
     public provider: TerminalDataProvider,
+    public variables: string[],
     public terminal?: Terminal
   ) {}
 }
