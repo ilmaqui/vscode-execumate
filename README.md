@@ -6,7 +6,7 @@
   </p>
 </div>
 
-![Version 0.1.1](https://img.shields.io/badge/version-0.1.1-blue
+![Version 0.3.0](https://img.shields.io/badge/version-0.3.0-blue
 )
 
 ## Instalation
@@ -30,9 +30,9 @@ Global commands are maintained between projects, while workspace commands are sh
 
 ## Release Notes
 
-### 0.1.1
+### 0.3.0
 
-- Updated icon.
+- Fixed a bug which caused the extension to ask you for variables inside a command that had no variables. (Keep in mind you will have to edit the command and save it again for the bug to be fixed).
 
 ## Known Issues
 
