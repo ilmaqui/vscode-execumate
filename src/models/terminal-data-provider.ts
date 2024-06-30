@@ -249,11 +249,12 @@ export class TerminalDataProvider implements TreeDataProvider<TerminalNode> {
     inputBox.placeholder = "npm run start";
     inputBox.step = 1;
     inputBox.value = node.command ?? "";
-    inputBox.totalSteps = 2;
+    inputBox.totalSteps = 3;
     inputBox.show();
 
     let command = "";
     let label = "";
+    let variables = [];
 
     inputBox.onDidAccept(() => {
       if (inputBox.step === 1) {
@@ -267,10 +268,18 @@ export class TerminalDataProvider implements TreeDataProvider<TerminalNode> {
         }
       } else if (inputBox.step === 2) {
         label = inputBox.value;
+        inputBox.value = node.variables.join(", ");
+        inputBox.step = 3;
+        inputBox.prompt =
+          "Enter any optional variables this command can have separated by commas: (optional) ";
+        inputBox.placeholder = "--port 3000,--port 3001,--open";
+      } else if (inputBox.step === 3) {
+        variables = inputBox.value === "" ? [] : inputBox.value.split(",");
         inputBox.value = "";
         inputBox.hide();
         node.label = label ?? command;
         node.command = command;
+        node.variables = variables;
         this._onDidChangeTreeData.fire(undefined);
         saveCommandsToFile(this.terminals, node.cType, this._context);
       }
