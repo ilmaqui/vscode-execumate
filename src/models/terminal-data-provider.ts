@@ -87,7 +87,7 @@ export class TerminalDataProvider implements TreeDataProvider<TerminalNode> {
           "Enter any optional variables this command can have separated by commas: (optional) ";
         inputBox.placeholder = "--port 3000,--port 3001,--open";
       } else if (inputBox.step === 3) {
-        variables = inputBox.value.split(",");
+        variables = inputBox.value === "" ? [] : inputBox.value.split(",");
         inputBox.value = "";
         inputBox.hide();
 
