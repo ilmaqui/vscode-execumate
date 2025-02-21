@@ -21,7 +21,7 @@ You can install the extension directly from the Visual Studio Code Marketplace b
 
 With this extension you will forget about working with VS Code Tasks. This easily allows you to create new terminals and execumate specific commands with just one click. You can delete the terminals you don't use anymore or you can edit them to better suit your necessities.
 
-Global commands are maintained between projects, while workspace commands are shared amongst each individual working on the project (and each one can create new ones). Temporary commands are short-lived terminals for sending commands and are automatically deleted upon exit.
+Global commands are maintained between projects, while workspace commands are shared amongst each individual working on the project (and each one can create new ones).
 
 > [!IMPORTANT]  
 > Activating this extension will dispose any terminal running, stopped or idling. So keep that in mind!

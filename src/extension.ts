@@ -3,11 +3,11 @@ import { TerminalDataProvider } from "./models/terminal-data-provider";
 import { CommandType } from "./models/command-type";
 import { TerminalNode } from "./models/terminal-node";
 import { createExtensionFolder, loadCommandsFromFile } from "./fileOperations";
+import { TestViewDragAndDrop } from "./models/testViewDragAndDrop";
 
 const commandTypeValues: CommandType[] = [
   CommandType.GLOBAL,
   CommandType.WORKSPACE,
-  CommandType.TEMPORARY,
 ];
 
 function registerCommands(
@@ -22,10 +22,6 @@ function registerCommands(
     {
       command: "execumate.addWorkspaceEntry",
       callback: () => providers[1].createTerminal(CommandType.WORKSPACE),
-    },
-    {
-      command: "execumate.addTemporaryEntry",
-      callback: () => providers[2].createTerminal(CommandType.TEMPORARY),
     },
     {
       command: "execumate.showTerminal",
@@ -51,6 +47,10 @@ function registerCommands(
       command: "execumate.editEntry",
       callback: (node: TerminalNode) => node.provider.editTerminal(node),
     },
+    // {
+    //   command: "execumate.addSubgroupEntry",
+    //   callback: (node: TerminalNode) => node.provider.createTerminal()
+    // }
   ];
 
   commands.forEach(({ command, callback }) =>
@@ -66,14 +66,18 @@ export async function activate(context: vscode.ExtensionContext) {
   const providers = [
     new TerminalDataProvider(context),
     new TerminalDataProvider(context),
-    new TerminalDataProvider(context),
   ];
   vscode.window.terminals.forEach((terminal) => terminal.dispose());
 
   providers.forEach((provider, index) =>
     vscode.window.createTreeView(
       `execumate.${commandTypeValues[index].toLowerCase()}`,
-      { treeDataProvider: provider }
+      {
+        treeDataProvider: provider,
+        showCollapseAll: true,
+        canSelectMany: true,
+        dragAndDropController: provider,
+      }
     )
   );
 
