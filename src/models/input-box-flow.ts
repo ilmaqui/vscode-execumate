@@ -12,10 +12,12 @@ export class InputBoxFlow {
     title: string,
     placeholder: string,
     totalSteps: number,
-    onComplete: (values: string[]) => void
+    onComplete: (values: string[]) => void,
+    value?: string
   ) {
     this.inputBox.title = title;
     this.inputBox.placeholder = placeholder;
+    this.inputBox.value = value || "";
     this.totalSteps = totalSteps;
     this.onComplete = onComplete;
 
@@ -38,12 +40,15 @@ export class InputBoxFlow {
     });
   }
 
-  addStep(placeholder: string, prompt?: string) {
+  addStep(placeholder: string, prompt?: string, value?: string) {
     this.stepHandlers.push(() => {
       this.inputBox.step = this.step;
       this.inputBox.placeholder = placeholder;
       if (prompt) {
         this.inputBox.prompt = prompt;
+      }
+      if (value) {
+        this.inputBox.value = value;
       }
     });
   }

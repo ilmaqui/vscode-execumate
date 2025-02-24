@@ -47,21 +47,39 @@
   "contributes": {
     "commands": [
       {
-        "command": "execumate.addGlobalEntry",
+        "command": "execumate.global.addEntry",
         "title": "Add Global entry",
         "icon": "$(add)",
         "category": "ExecuMate"
       },
       {
-        "command": "execumate.addWorkspaceEntry",
+        "command": "execumate.workspace.addEntry",
         "title": "Add Workspace Entry",
         "icon": "$(add)",
         "category": "ExecuMate"
       },
       {
         "command": "execumate.addSubgroupEntry",
+        "title": "Add a group entry",
+        "icon": "$(new-folder)",
+        "category": "ExecuMate"
+      },
+      {
+        "command": "execumate.group.addEntry",
         "title": "Add a new entry",
         "icon": "$(add)",
+        "category": "ExecuMate"
+      },
+      {
+        "command": "execumate.global.addSubgroupEntry",
+        "title": "Add a group entry",
+        "icon": "$(new-folder)",
+        "category": "ExecuMate"
+      },
+      {
+        "command": "execumate.workspace.addSubgroupEntry",
+        "title": "Add a group entry",
+        "icon": "$(new-folder)",
         "category": "ExecuMate"
       },
       {
@@ -120,12 +138,22 @@
       ],
       "view/title": [
         {
-          "command": "execumate.addGlobalEntry",
+          "command": "execumate.global.addEntry",
           "when": "view == execumate.global",
           "group": "navigation"
         },
         {
-          "command": "execumate.addWorkspaceEntry",
+          "command": "execumate.global.addSubgroupEntry",
+          "when": "view == execumate.global",
+          "group": "navigation"
+        },
+        {
+          "command": "execumate.workspace.addEntry",
+          "when": "view == execumate.workspace",
+          "group": "navigation"
+        },
+        {
+          "command": "execumate.workspace.addSubgroupEntry",
           "when": "view == execumate.workspace",
           "group": "navigation"
         }
@@ -153,7 +181,7 @@
         },
         {
           "command": "execumate.deleteEntry",
-          "when": "viewItem == terminalNode-STOPPED || viewItem == terminalNode-RUNNING",
+          "when": "viewItem == terminalNode-STOPPED || viewItem == terminalNode-RUNNING || viewItem == terminalNodeGroup",
           "group": "inline@4"
         },
         {
@@ -162,12 +190,12 @@
           "group": "inline@1"
         },
         {
-          "command": "execumate.editEntry",
+          "command": "execumate.group.addEntry",
           "when": "viewItem == terminalNodeGroup",
           "group": "inline@2"
         },
         {
-          "command": "execumate.deleteEntry",
+          "command": "execumate.editEntry",
           "when": "viewItem == terminalNodeGroup",
           "group": "inline@3"
         }
