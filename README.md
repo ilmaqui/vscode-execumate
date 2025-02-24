@@ -6,7 +6,7 @@
   </p>
 </div>
 
-![Version 0.3.2](https://img.shields.io/badge/version-0.3.2-blue
+![Version 0.4.1](https://img.shields.io/badge/version-0.4.1-blue
 )
 
 ## Instalation
@@ -30,7 +30,7 @@ Global commands are maintained between projects, while workspace commands are sh
 
 ## Release Notes
 
-### 0.3.2
+### 0.4.1
 
 - Fixed a bug that prevented you from editting the variables of a command.
 
