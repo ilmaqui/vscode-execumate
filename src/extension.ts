@@ -2,8 +2,7 @@ import vscode from "vscode";
 import { TerminalDataProvider } from "./models/terminal-data-provider";
 import { CommandType } from "./models/command-type";
 import { TerminalNode } from "./models/terminal-node";
-import { createExtensionFolder, loadCommandsFromFile } from "./fileOperations";
-import { TestViewDragAndDrop } from "./models/testViewDragAndDrop";
+import { createExtensionFolder, loadCommandsFromFile } from "./file-operations";
 
 const commandTypeValues: CommandType[] = [
   CommandType.GLOBAL,
@@ -16,12 +15,20 @@ function registerCommands(
 ) {
   const commands = [
     {
-      command: "execumate.addGlobalEntry",
+      command: "execumate.global.addEntry",
       callback: () => providers[0].createTerminal(CommandType.GLOBAL),
     },
     {
-      command: "execumate.addWorkspaceEntry",
+      command: "execumate.global.addSubgroupEntry",
+      callback: () => providers[0].createGroup(CommandType.GLOBAL),
+    },
+    {
+      command: "execumate.workspace.addEntry",
       callback: () => providers[1].createTerminal(CommandType.WORKSPACE),
+    },
+    {
+      command: "execumate.workspace.addSubgroupEntry",
+      callback: () => providers[1].createGroup(CommandType.WORKSPACE),
     },
     {
       command: "execumate.showTerminal",
@@ -47,10 +54,16 @@ function registerCommands(
       command: "execumate.editEntry",
       callback: (node: TerminalNode) => node.provider.editTerminal(node),
     },
-    // {
-    //   command: "execumate.addSubgroupEntry",
-    //   callback: (node: TerminalNode) => node.provider.createTerminal()
-    // }
+    {
+      command: "execumate.group.addEntry",
+      callback: (node: TerminalNode) =>
+        node.provider.createTerminal(node.cType, node),
+    },
+    {
+      command: "execumate.addSubgroupEntry",
+      callback: (node: TerminalNode) =>
+        node.provider.createGroup(node.cType, node),
+    },
   ];
 
   commands.forEach(({ command, callback }) =>
@@ -64,8 +77,8 @@ export async function activate(context: vscode.ExtensionContext) {
   await createExtensionFolder(context);
 
   const providers = [
-    new TerminalDataProvider(context),
-    new TerminalDataProvider(context),
+    new TerminalDataProvider(context, CommandType.GLOBAL),
+    new TerminalDataProvider(context, CommandType.WORKSPACE),
   ];
   vscode.window.terminals.forEach((terminal) => terminal.dispose());
 
