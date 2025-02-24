@@ -6,7 +6,7 @@
   </p>
 </div>
 
-![Version 0.3.1](https://img.shields.io/badge/version-0.3.1-blue
+![Version 0.3.2](https://img.shields.io/badge/version-0.3.2-blue
 )
 
 ## Instalation
@@ -19,9 +19,9 @@ You can install the extension directly from the Visual Studio Code Marketplace b
 
 ## Features
 
-With this extension you will forget about working with VS Code Tasks. This easily allows you to create new terminals and execumate specific commands with just one click. You can delete the terminals you don't use anymore or you can edit them to better suit your necessities.
+With this extension you will forget about working with VS Code Tasks. This easily allows you to create new terminals and execumate specific commands with just one click. You can delete the terminals you don't use anymore or you can edit them to better suit your necessities. You can also drag and drop them around to change their order.
 
-Global commands are maintained between projects, while workspace commands are shared amongst each individual working on the project (and each one can create new ones). Temporary commands are short-lived terminals for sending commands and are automatically deleted upon exit.
+Global commands are maintained between projects, while workspace commands are shared amongst each individual working on the project (and each one can create new ones).
 
 > [!IMPORTANT]  
 > Activating this extension will dispose any terminal running, stopped or idling. So keep that in mind!
@@ -30,7 +30,7 @@ Global commands are maintained between projects, while workspace commands are sh
 
 ## Release Notes
 
-### 0.3.1
+### 0.3.2
 
 - Fixed a bug that prevented you from editting the variables of a command.
 
@@ -40,8 +40,10 @@ Global commands are maintained between projects, while workspace commands are sh
 
 ## What's coming next?
 
-- [ ] Add a feature to show/hide commands.
-- [ ] Add a feature to show/hide a list of commands under a section (hide all global commands, etc).
+- [X] Add a feature to show/hide commands.
+- [X] Add a feature to show/hide a list of commands under a section (hide all global commands, etc).
+- [X] Add a feature to group commands in sections.
+- [X] Add a feature to drag and drop commands to change their order.
 - [ ] Add a feature for you to be able to select the icon which shows up in the contributed view.
 - [ ] Add a feature to create commands with different shells (cmd, bash, powershell, etc).
 
