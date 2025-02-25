@@ -3,4 +3,4 @@ dist
 node_modules
 .vscode-test/
 *.vsix
-workspace-exemutate.json
+workspace-execumate.json
