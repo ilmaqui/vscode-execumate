@@ -6,7 +6,7 @@
   </p>
 </div>
 
-![Version 0.4.1](https://img.shields.io/badge/version-0.4.1-blue
+![Version 0.4.2](https://img.shields.io/badge/version-0.4.2-blue
 )
 
 ## Instalation
@@ -30,9 +30,9 @@ Global commands are maintained between projects, while workspace commands are sh
 
 ## Release Notes
 
-### 0.4.1
+### 0.4.2
 
-- Fixed a bug that prevented you from editting the variables of a command.
+- Fixed a bug where terminals would always be expanded on startup.
 
 ## Known Issues
 
