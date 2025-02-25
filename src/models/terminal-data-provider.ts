@@ -263,7 +263,7 @@ export class TerminalDataProvider
 
   private getCollapsibleState(element: TerminalNode): TreeItemCollapsibleState {
     return element.children && element.children.length > 0
-      ? TreeItemCollapsibleState.Expanded
+      ? TreeItemCollapsibleState.Collapsed
       : TreeItemCollapsibleState.None;
   }
 
